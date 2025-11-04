@@ -337,11 +337,11 @@
         <div id="card_1" class="hidden dialogue-box clickable">
             <img src="assets/dialogbox.png" alt="dialogbox background">
             <div id="scene1">
-                <img id="character" src="assets/hua.gif" alt="">
+                <img id="character" src="assets/崙港頂呱呱_去背.gif" alt="">
                 <div class="namecard">
                     <h3 class="cname">導覽員-頂呱呱</h3>
                 </div>
-                <h3 class="dialog">大家好呀！我是小黃鴨呱呱~</h3>
+                <h3 class="dialog">你好呀！我是導覽員頂呱呱~歡迎來到崙港社區！</h3>
                 <div class="options">
                     <button class="next-btn" data-next="card_2">請點選按鈕繼續</button>
                 </div>
@@ -350,7 +350,7 @@
         <div id="card_2" class="hidden dialogue-box">
             <img src="assets/dialogbox.png" alt="dialogbox background">
             <div id="scene2">
-                <img id="character" src="assets/hua.gif" alt="">
+                <img id="character" src="assets/崙港頂呱呱_去背.gif" alt="">
                 <div class="namecard">
                     <h3 class="cname">導覽員-頂呱呱</h3>
                 </div>
@@ -365,9 +365,9 @@
         <div id="card_3" class="hidden dialogue-box">
             <img src="assets/dialogbox.png" alt="dialogbox background">
             <div id="scene2">
-                <img id="character" src="assets/hua.gif" alt="">
+                <img id="character" src="assets/崙港頂呱呱_去背.gif" alt="">
                 <div class="namecard">
-                    <h3 class="cname">導覽員-小花</h3>
+                    <h3 class="cname">導覽員-頂呱呱</h3>
                 </div>
                 <h3 class="dialog" id="message"></h3>
                 <div class="options">
@@ -378,7 +378,7 @@
         <div id="card_4" class="hidden dialogue-box">
             <img src="assets/dialogbox.png" alt="dialogbox background">
             <div id="scene4">
-                <img src="assets/hua.gif" alt="">
+                <img src="assets/崙港頂呱呱_去背.gif" alt="">
                 <div class="namecard">
                     <h3 class="cname">導覽員-頂呱呱</h3>
                 </div>
@@ -399,7 +399,7 @@
         document.getElementById('continue-btn').addEventListener('click', function () {
             document.getElementById('dialogue-1').classList.add('hidden');
             document.getElementById('card_1').classList.remove('hidden');
-            playAudio('assets/1.wav'); // Play the audio for card 1
+            playAudio('assets/duck_introduce.wav'); // Play the audio for card 1
         });
 
         document.querySelectorAll('.next-btn').forEach(button => {

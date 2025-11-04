@@ -1063,5 +1063,94 @@
         </div>
       </div>
     </a-scene>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const debug = document.createElement("div");
+        debug.style.position = "fixed";
+        debug.style.bottom = "10px";
+        debug.style.left = "10px";
+        debug.style.background = "rgba(0,0,0,0.6)";
+        debug.style.color = "#00FFAA";
+        debug.style.fontSize = "12px";
+        debug.style.padding = "6px 10px";
+        debug.style.borderRadius = "8px";
+        debug.style.zIndex = "99999";
+        debug.innerText = "🔍 Debug overlay 啟動中...";
+        document.body.appendChild(debug);
+
+        function logDebug(msg) {
+          console.log(msg);
+          debug.innerText = `🧭 ${msg}`;
+        }
+
+        // 檢查是否支援 DeviceMotion
+        if (typeof DeviceMotionEvent === "undefined") {
+          logDebug("❌ 不支援 DeviceMotionEvent（此裝置或瀏覽器不支援）");
+          return;
+        } else {
+          logDebug("✅ 支援 DeviceMotionEvent");
+        }
+
+        // 檢查是否需要 requestPermission
+        if (typeof DeviceMotionEvent.requestPermission !== "function") {
+          logDebug("📱 不需 requestPermission（非 iOS 13+）");
+          return;
+        } else {
+          logDebug("🕐 需要 requestPermission (iOS 裝置)");
+        }
+
+        // 建立黑色提示畫面
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.8)";
+        overlay.style.color = "white";
+        overlay.style.display = "flex";
+        overlay.style.flexDirection = "column";
+        overlay.style.justifyContent = "center";
+        overlay.style.alignItems = "center";
+        overlay.style.zIndex = "9999";
+        overlay.style.pointerEvents = "auto";
+        overlay.innerHTML = `
+          <h2>📱 啟用感測器以進行 AR 導覽</h2>
+          <p>請點選下方按鈕允許使用裝置方向感測</p>
+          <button id="grantAccessBtn"
+            style="padding:12px 24px;font-size:16px;border:none;background:#42a5f5;color:white;border-radius:8px;">
+            允許使用感測器
+          </button>
+        `;
+        document.body.appendChild(overlay);
+        logDebug("📋 顯示授權提示畫面");
+
+        // 綁定按鈕事件
+        document.getElementById("grantAccessBtn").addEventListener("click", () => {
+          logDebug("🖱️ 使用者按下允許按鈕，請求權限中...");
+
+          try {
+            DeviceMotionEvent.requestPermission()
+              .then(response => {
+                if (response === "granted") {
+                  overlay.remove();
+                  logDebug("✅ 使用者授權感測器成功！");
+                } else if (response === "denied") {
+                  logDebug("❌ 使用者拒絕授權 DeviceMotion");
+                  alert("⚠️ 未授權感測器，AR 功能可能無法使用");
+                } else {
+                  logDebug(`⚠️ 不明回應：${response}`);
+                }
+              })
+              .catch(err => {
+                logDebug(`💥 requestPermission 失敗：${err.message}`);
+              });
+          } catch (e) {
+            logDebug(`❗ 例外錯誤：${e.message}`);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
