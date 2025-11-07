@@ -80,23 +80,31 @@
     .hidden {
       display: none;
     }
+    /* 讓三個選項直向排、保持間距 */
     .selection{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;                 /* 按鈕間距 */
     }
-    .selection>button{
-      background-color:rgba(120, 196, 240, 0.849);
-      margin: 1% 2%;
-      padding:2% 5%;
-      border-radius: 30px;
-      border-color: transparent;
 
-      position: relative;
-      z-index: 9999;
-      pointer-events: auto;
-
+    /* 調整選項按鈕排版與換行規則 */
+    .selection button{
+      display:block;
+      width: min(90%, 420px);    /* 手機不超出畫面、桌機不會太寬 */
+      padding: 12px 16px;
+      background:#fff;           /* 白底，字清楚 */
+      border:1px solid #ddd;
+      border-radius: 12px;
+      box-sizing: border-box;
+      text-align: left;          /* 文字靠左比較好讀 */
+      line-height: 1.4;
+      white-space: normal;       /* 允許換行 */
+      overflow-wrap: break-word; /* 長字分行 */
+      word-break: break-word;    /* 中英文都能斷行 */
+      font-size: 1rem;
     }
+
     .options>button{
       background-color:rgba(120, 196, 240, 0.849);
       padding: 1% 3%;
@@ -225,6 +233,10 @@
       #card_35,
       #card_36{
         height: 21%;
+      }
+      .selection button{
+        font-size: .95rem;
+        padding: 10px 14px;
       }
       .options>button{
         margin: 0;
@@ -390,30 +402,30 @@
       }
     }
 
-    @media screen and (max-width:480px){
+    @media screen and (max-width:480px) {
       .dialogue-box {
         left: 50%;
-    }
+      }
+    } /* ← 這個大括號一定要補上！ */
 
-    
     /* samsung galaxy a51/a71 */
     @media (max-width: 440px) {
-      .selection{
+      .selection {
         flex-direction: column;
       }
-      .selection>button{
+      .selection > button {
         margin: 2%;
       }
-      .options>button{
+      .options > button {
         padding: 5%;
       }
-      #mrju{
+      #mrju {
         height: 289px;
         width: 350px;
         top: -288px;
         left: -23%;
       }
-      #hua{
+      #hua {
         height: 289px;
         width: 350px;
         top: -288px;
@@ -454,10 +466,11 @@
       #card_33,
       #card_34,
       #card_35,
-      #card_36{
+      #card_36 {
         height: 26%;
       }
-    }	
+    }
+
 
     @media screen and (max-width:400px) { 
       h3{
@@ -504,10 +517,8 @@
       }
     }
 
-      
 
-
-  }
+  
      
     </style>
     <script>
@@ -793,6 +804,17 @@
           'optionS', 'optionT', 'optionU', 'optionV', 'optionW', 'optionX'
         ];
 
+        document.querySelectorAll(".next-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const next = btn.getAttribute("data-next");
+            const current = btn.closest("[id^='card_']");
+            if (current) current.classList.add("hidden");
+            if (next && document.getElementById(next)) {
+              document.getElementById(next).classList.remove("hidden");
+            }
+          });
+        });
+
       });
   </script>
   </head>
@@ -802,7 +824,7 @@
   <div id="mrju" class="hidden"></div>
 
   <!--<a-scene mindar-image="imageTargetSrc: assets/imagetargets/六龜山茶館圖片/targets_tea.mind; filterMinCF:0.0001; filterBeta:0.001">-->
-  <a-scene mindar-image="imageTargetSrc: assets/imagetargets/崙港鴨饗吧圖片/targets_duck.mind">
+  <a-scene mindar-image="imageTargetSrc: assets/imagetargets/崙港鴨饗吧圖片/duck_mind/targets01.mind">
 
       <a-camera position="0 0 0" look-controls="enabled:false" cursor="fuse: false; rayOrigin: mouse;"
       raycaster="near: 10; far: 30000; objects: .clickable"></a-camera>
@@ -824,13 +846,88 @@
   </a-scene>
 
     <div id="ui-layer">
-      <!-- 🏯 光德寺 題目 -->
+      <!-- 🏯 光德寺：導覽解說 1 -->
       <div id="card_duck1" class="hidden">
         <div id="sceneDuck1">
-          <h3 class="namecard">導覽員-頂呱呱</h3>
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
           <h3 class="dialog">
-            Q1：光德寺最早的創建年代為何？
+            光德寺最初由崙港之地方人士盧宋居士創建於1927年（民國16年）。
+            首任住持為玄宗和尚，寺院坐落於田園環繞的幽靜環境中，
+            是當時高雄縣重要的佛教場所之一。
           </h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck1_2">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏯 光德寺：導覽解說 2 -->
+      <div id="card_duck1_2" class="hidden">
+        <div id="sceneDuck1_2">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">
+            1963年（民國52年）起，由淨心長老開始長期主持光德寺，
+            開啟了寺院發展的新紀元。
+            在他的領導下，光德寺不僅在硬體建設上有所發展，
+            更成為推動佛教教育、文化、慈善及公益事業的重要基地。
+          </h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck1_3">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏯 光德寺：導覽解說 3 -->
+      <div id="card_duck1_3" class="hidden">
+        <div id="sceneDuck1_3">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">
+            1967年創辦淨覺佛學院，專注於培育佛教人才；
+            1973年成立淨覺育幼院，撫育孤幼；
+            1980年代因三寶殿毀損進行重建，
+            成為今日所見的莊嚴現代化建築。
+          </h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck1_4">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏯 光德寺：導覽解說 4 -->
+      <div id="card_duck1_4" class="hidden">
+        <div id="sceneDuck1_4">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">
+            1998年，淨心長老發願籌建「淨覺養護中心」，
+            並成立「淨覺社會福利基金會」，投入老人福利事業。
+            他畢生致力於弘法利生，推動台灣佛教現代化與社會化，
+            被譽為一代宗師。
+          </h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck1_5">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏯 光德寺：導覽解說 5（最後一段接題目） -->
+      <div id="card_duck1_5" class="hidden">
+        <div id="sceneDuck1_5">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">
+            淨心長老於2020年圓寂後，其創立的佛學院、育幼院與基金會仍持續運作，
+            光德寺也依舊是南台灣重要的佛教信仰與教育中心。
+          </h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck1_question">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ❓ 光德寺：題目 -->
+      <div id="card_duck1_question" class="hidden">
+        <div id="sceneDuck1Q">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">Q1：光德寺最早的創建年代為何？</h3>
           <div class="selection">
             <button>(A) 清朝嘉慶年間</button>
             <button>(B) 民國十六年</button>
@@ -839,14 +936,15 @@
         </div>
       </div>
 
-      <!-- 結果畫面 -->
+      <!-- ✅ 光德寺：答題結果 -->
       <div id="card_duck1_result" class="hidden">
-        <div id="sceneDuck1Result">
-          <h3 class="namecard">導覽員-頂呱呱</h3>
+        <div id="sceneDuck1R">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
           <h3 class="dialog" id="resultDuck1"></h3>
           <h3 class="dialog">
-            💡 解說：光德寺創建於民國十六年（1927 年），是信仰與社區活動並行的佛寺，
-            環境清幽，寺中設有講堂與活動中心，是居民精神寄託與集會場所。
+            💡 解說：光德寺創建於民國十六年（1927年），
+            是信仰與社區活動並行的佛寺，
+            致力推動教育與公益，是崙港的重要信仰中心。
           </h3>
           <div class="options">
             <button class="next-btn" data-next="#">請移動鏡頭至下一個導覽點</button>
@@ -854,35 +952,33 @@
         </div>
       </div>
 
+
       <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const questions = [
-          {
-            cardId: 'card_duck1',
-            correctAnswer: '(B) 民國十六年',
-            resultId: 'resultDuck1',
-            nextCardId: 'card_duck1_result'
+        const duckQuestion = {
+        cardId: 'card_duck1_question',
+        correctAnswer: '(B) 民國十六年',
+        resultId: 'resultDuck1',
+        nextCardId: 'card_duck1_result'
+      };
+
+      const card = document.getElementById(duckQuestion.cardId);
+      const buttons = card.querySelectorAll('.selection button');
+      const result = document.getElementById(duckQuestion.resultId);
+      const nextCard = document.getElementById(duckQuestion.nextCardId);
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.innerText.trim() === duckQuestion.correctAnswer.trim()) {
+            result.innerText = '✅ 恭喜你，答對了！';
+          } else {
+            result.innerText = `❌ 答錯了～正確答案是 ${duckQuestion.correctAnswer}`;
           }
-        ];
-
-        questions.forEach(q => {
-          const card = document.getElementById(q.cardId);
-          const result = document.getElementById(q.resultId);
-          const nextCard = document.getElementById(q.nextCardId);
-          const buttons = card.querySelectorAll(".selection button");
-
-          buttons.forEach(btn => {
-            btn.addEventListener("click", function () {
-              if (btn.innerText.trim() === q.correctAnswer.trim()) {
-                result.innerText = "✅ 答對了！";
-              } else {
-                result.innerText = "❌ 答錯了！正確答案是 " + q.correctAnswer;
-              }
-              card.classList.add("hidden");
-              nextCard.classList.remove("hidden");
-            });
-          });
+          card.classList.add('hidden');
+          nextCard.classList.remove('hidden');
         });
+      });
+
         // ===============================
         // 🎯 下一個導覽點按鈕控制（放這裡！）
         // ===============================
@@ -1314,5 +1410,95 @@
         </div>
       </div>
     </a-scene>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const debug = document.createElement("div");
+        debug.style.position = "fixed";
+        debug.style.bottom = "10px";
+        debug.style.left = "10px";
+        debug.style.background = "rgba(0,0,0,0.6)";
+        debug.style.color = "#00FFAA";
+        debug.style.fontSize = "12px";
+        debug.style.padding = "6px 10px";
+        debug.style.borderRadius = "8px";
+        debug.style.zIndex = "99999";
+        debug.innerText = "🔍 Debug overlay 啟動中...";
+        document.body.appendChild(debug);
+
+        function logDebug(msg) {
+          console.log(msg);
+          debug.innerText = `🧭 ${msg}`;
+        }
+
+        // 檢查是否支援 DeviceMotion
+        if (typeof DeviceMotionEvent === "undefined") {
+          logDebug("❌ 不支援 DeviceMotionEvent（此裝置或瀏覽器不支援）");
+          return;
+        } else {
+          logDebug("✅ 支援 DeviceMotionEvent");
+        }
+
+        // 檢查是否需要 requestPermission
+        if (typeof DeviceMotionEvent.requestPermission !== "function") {
+          logDebug("📱 不需 requestPermission（非 iOS 13+）");
+          return;
+        } else {
+          logDebug("🕐 需要 requestPermission (iOS 裝置)");
+        }
+
+        // 建立黑色提示畫面
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.8)";
+        overlay.style.color = "white";
+        overlay.style.display = "flex";
+        overlay.style.flexDirection = "column";
+        overlay.style.justifyContent = "center";
+        overlay.style.alignItems = "center";
+        overlay.style.zIndex = "9999";
+        overlay.style.pointerEvents = "auto";
+        overlay.innerHTML = `
+          <h2>📱 啟用感測器以進行 AR 導覽</h2>
+          <p>請點選下方按鈕允許使用裝置方向感測</p>
+          <button id="grantAccessBtn"
+            style="padding:12px 24px;font-size:16px;border:none;background:#42a5f5;color:white;border-radius:8px;">
+            允許使用感測器
+          </button>
+        `;
+        document.body.appendChild(overlay);
+        logDebug("📋 顯示授權提示畫面");
+
+        // 綁定按鈕事件
+        document.getElementById("grantAccessBtn").addEventListener("click", () => {
+          logDebug("🖱️ 使用者按下允許按鈕，請求權限中...");
+
+          try {
+            DeviceMotionEvent.requestPermission()
+              .then(response => {
+                if (response === "granted") {
+                  overlay.remove();
+                  logDebug("✅ 使用者授權感測器成功！");
+                } else if (response === "denied") {
+                  logDebug("❌ 使用者拒絕授權 DeviceMotion");
+                  alert("⚠️ 未授權感測器，AR 功能可能無法使用");
+                } else {
+                  logDebug(`⚠️ 不明回應：${response}`);
+                }
+              })
+              .catch(err => {
+                logDebug(`💥 requestPermission 失敗：${err.message}`);
+              });
+          } catch (e) {
+            logDebug(`❗ 例外錯誤：${e.message}`);
+          }
+        });
+      });
+    </script>
+
   </body>
 </html>
