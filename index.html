@@ -341,7 +341,7 @@
                 <div class="namecard">
                     <h3 class="cname">導覽員-啵啵鴨</h3>
                 </div>
-                <h3 class="dialog">你好呀！我是導覽員啵啵鴨~歡迎來到崙港社區！</h3>
+                <h3 class="dialog">你好呀！我是導覽員啵啵鴨~歡迎你來到崙港社區！</h3>
                 <div class="options">
                     <button class="next-btn" data-next="card_2">請點選按鈕繼續</button>
                 </div>
@@ -399,7 +399,7 @@
         document.getElementById('continue-btn').addEventListener('click', function () {
             document.getElementById('dialogue-1').classList.add('hidden');
             document.getElementById('card_1').classList.remove('hidden');
-            playAudio('assets/duck_introduce.wav'); // Play the audio for card 1
+            playAudio('assets/崙港相關音檔/introduce導覽員介紹.mp3'); // Play the audio for card 1
         });
 
         document.querySelectorAll('.next-btn').forEach(button => {
@@ -410,7 +410,7 @@
 
                 // Play the corresponding audio for each card
                 if (nextCard === 'card_4') {
-                    playAudio('assets/1-2.wav'); // Play the audio for card 4
+                    playAudio('assets/崙港相關音檔/go前往導覽.mp3'); // Play the audio for card 4
                 }
             });
         });

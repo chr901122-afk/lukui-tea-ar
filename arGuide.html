@@ -568,7 +568,7 @@
           console.log('AR scene loaded');
           arSystem = sceneEl.systems["mindar-image-system"];
 
-          const targets = [
+/*           const targets = [
 
             // { id: 'targetTea1', sceneId: 'sceneTea1', cardId: 'card_tea1', music: null },
             // { id: 'targetTea2', sceneId: 'sceneTea2', cardId: 'card_tea2', music: null },
@@ -576,15 +576,20 @@
             // { id: 'targetTea4', sceneId: 'sceneTea4', cardId: 'card_tea4', music: null },
             // { id: 'targetTea5', sceneId: 'sceneTea5', cardId: 'card_tea5', music: null },
             // { id: 'targetTea6', sceneId: 'sceneTea6', cardId: 'card_tea6', music: null },
-
             { id: 'targetDuck1', sceneId: 'sceneDuck1', cardId: 'card_duck1', music: null },
             { id: 'targetDuck2', sceneId: 'sceneDuck2', cardId: 'card_duck2', music: null },
-            { id: 'targetDuck3', sceneId: 'sceneDuck3', cardId: 'card_duck3', music: null },
-            { id: 'targetDuck4', sceneId: 'sceneDuck4', cardId: 'card_duck4', music: null },
             { id: 'targetDuck5', sceneId: 'sceneDuck5', cardId: 'card_duck5', music: null },
-            { id: 'targetDuck6', sceneId: 'sceneDuck6', cardId: 'card_duck6', music: null },
 
+          ]; */
+
+          const targets = [
+            // 1️⃣ 光德寺 duck01（targetIndex:1）
+            { id: 'targetDuck1', sceneId: 'sceneDuck1', cardId: 'card_duck1', music: null },
+
+            // 2️⃣ 紅陶鴨村 duck02（targetIndex:2）
+            { id: 'targetDuckVillage', sceneId: 'sceneDuck2', cardId: 'card_duck2', music: null },
           ];
+
 
           targets.forEach(target => {
             const { id, sceneId, cardId, music } = target;
@@ -691,12 +696,18 @@
         // ===============================
         const questions = [
           {
-            cardId: 'card_duck1',
-            correctAnswer: 'B. 民國十六年',
+            cardId: 'card_duck1_question',
+            correctAnswer: '(B) 民國十六年',
             resultId: 'resultDuck1',
             nextCardId: 'card_duck1_result'
           },
           {
+            cardId: 'card_duck2_question',   // ⬅ 原本是 'card_duck2'
+            correctAnswer: '(B) 具有手作體驗活動與懷舊氛圍的農機具展示',
+            resultId: 'resultDuck2',
+            nextCardId: 'card_duck2_result'
+          },
+/*        {
               cardId: 'card_tea1',
               correctAnswer: '(B) 喬木型',
               resultId: 'resultTea1',
@@ -749,7 +760,7 @@
               correctAnswer: 'B.魔球進壘',
               resultId: 'result30',
               nextCardId: 'card_30'
-          },
+          }, */
         ];
 
         console.log("🧩 題目系統已載入，共", questions.length, "題");
@@ -824,26 +835,44 @@
   <div id="mrju" class="hidden"></div>
 
   <!--<a-scene mindar-image="imageTargetSrc: assets/imagetargets/六龜山茶館圖片/targets_tea.mind; filterMinCF:0.0001; filterBeta:0.001">-->
-  <a-scene mindar-image="imageTargetSrc: assets/imagetargets/崙港鴨饗吧圖片/duck_mind/targets01.mind">
+  <!-- <a-scene mindar-image="imageTargetSrc: assets/imagetargets/崙港鴨饗吧圖片/duck_mind/targets01.mind"> -->
+  <a-scene
+    mindar-image="imageTargetSrc: assets/imagetargets/崙港鴨饗吧圖片/mind/targets.mind"
+    color-space="sRGB"
+    renderer="colorManagement: true, physicallyCorrectLights"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+    embedded
+  >
+    
+    <!-- Camera 必須放在 a-scene 內 -->
+    <a-camera 
+      position="0 0 0" 
+      look-controls="enabled:false"
+      cursor="fuse: false; rayOrigin: mouse;"
+      raycaster="near: 10; far: 30000; objects: .clickable">
+    </a-camera>
 
-      <a-camera position="0 0 0" look-controls="enabled:false" cursor="fuse: false; rayOrigin: mouse;"
-      raycaster="near: 10; far: 30000; objects: .clickable"></a-camera>
+    <!-- MindAR target entities（必須放在 a-scene 裡） -->
+    
+    <!-- 0 = duck05.jpg = 室內六角木作 -->
+    <a-entity id="targetWoodDisplay" mindar-image-target="targetIndex: 0" rotation="75 0 0"></a-entity>
 
-      <!--<a-entity target id="targetTea1" mindar-image-target="targetIndex: 0" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetTea2" mindar-image-target="targetIndex: 1" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetTea3" mindar-image-target="targetIndex: 2" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetTea4" mindar-image-target="targetIndex: 3" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetTea5" mindar-image-target="targetIndex: 4" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetTea6" mindar-image-target="targetIndex: 5" rotation="75 0 0"></a-entity>-->
+    <!-- 1 = duck01.jpg = 光德寺 -->
+    <a-entity id="targetDuck1" mindar-image-target="targetIndex: 1" rotation="75 0 0"></a-entity>
 
-      <a-entity target id="targetDuck1" mindar-image-target="targetIndex: 0" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetDuck2" mindar-image-target="targetIndex: 1" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetDuck3" mindar-image-target="targetIndex: 2" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetDuck4" mindar-image-target="targetIndex: 3" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetDuck5" mindar-image-target="targetIndex: 4" rotation="75 0 0"></a-entity>
-      <a-entity target id="targetDuck6" mindar-image-target="targetIndex: 5" rotation="75 0 0"></a-entity>
+    <!-- 2 = duck02.jpg = 紅陶鴨村 農機具 -->
+    <a-entity id="targetDuckVillage" mindar-image-target="targetIndex: 2" rotation="75 0 0"></a-entity>
+
+    <!-- 3 = duck03.jpg = 綠色庭院 -->
+    <a-entity id="targetGreenYard" mindar-image-target="targetIndex: 3" rotation="75 0 0"></a-entity>
+
+    <!-- 4 = duck04.jpg = 彩繪牆 -->
+    <a-entity id="targetColorWall" mindar-image-target="targetIndex: 4" rotation="75 0 0"></a-entity>
+
 
   </a-scene>
+
 
     <div id="ui-layer">
       <!-- 🏯 光德寺：導覽解說 1 -->
@@ -952,6 +981,51 @@
         </div>
       </div>
 
+      <!-- ✅ 接著在這裡貼上你的新卡片段落 -->
+      <!-- 🏯 新景點導覽解說 -->
+      <div id="card_duck2" class="hidden">
+        <div id="sceneDuck2">
+          <h3 class="namecard">導覽員－啵啵鴨</h3>
+          <h3 class="dialog">「紅陶鴨村」是透過活化社區內閒置空間，打造出具有手作體驗活動與懷舊氛圍的農機具展示場域。這些機具成為社區景觀的一部分，讓到訪的旅客了解早期農耕的辛勞與變遷。且結合了周圍「觀」公園、「鴨鄉漫遊」古厝花園，讓遊客更能親身體驗昔日「鴨庄」的生活與文化。</h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck2_2">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏯 第二段解說 -->
+      <div id="card_duck2_2" class="hidden">
+        <div id="sceneDuck2_2">
+          <h3 class="dialog">它主要展示崙港地區的歷史與民俗藝術…</h3>
+          <div class="options">
+            <button class="next-btn" data-next="card_duck2_question">請點選按鈕繼續</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ❓ 題目 -->
+      <div id="card_duck2_question" class="hidden">
+        <div id="sceneDuck2Q">
+          <h3 class="dialog">Q：「紅陶鴨村」是透過活化社區閒置空間所打造，其場域主要提供哪兩類活動和展示？</h3>
+          <div class="selection">
+            <button>(A) 專門銷售特色農產與結合趕鴨元素的文創商品</button>
+            <button>(B) 具有手作體驗活動與懷舊氛圍的農機具展示</button>
+            <button>(C) 供在地青年文創商品及社區協會開發商品展示與銷售</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ 答案結果 -->
+      <div id="card_duck2_result" class="hidden">
+        <div id="sceneDuck2R">
+          <h3 class="dialog" id="resultDuck2"></h3>
+          <h3 class="dialog">💡 解說：「紅陶鴨村」是透過活化社區內閒置空間，打造出具有手作體驗活動與懷舊氛圍的農機具展示場域。</h3>
+          <div class="options">
+            <button class="next-btn" data-next="#">請移動鏡頭至下一個導覽點</button>
+          </div>
+        </div>
+      </div>
+
 
       <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -979,16 +1053,20 @@
         });
       });
 
-        // ===============================
-        // 🎯 下一個導覽點按鈕控制（放這裡！）
-        // ===============================
+        // ✅ 下一個導覽點按鈕控制（立刻註冊）
         document.querySelectorAll(".next-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             console.log("🧭 玩家選擇前往下一個導覽點");
-            // 1️⃣ 隱藏所有卡片
-            document.querySelectorAll('[id^="card_"]').forEach(card => card.classList.add('hidden'));
-            // 3️⃣ 清空結果文字
-            document.querySelectorAll('[id^="result"]').forEach(result => result.innerText = '');
+            // 隱藏當前卡片
+            const current = btn.closest("[id^='card_']");
+            if (current) current.classList.add('hidden');
+            // 顯示下一個
+            const next = btn.getAttribute("data-next");
+            if (next && document.getElementById(next)) {
+              document.getElementById(next).classList.remove("hidden");
+            }
+            // 清空結果
+            document.querySelectorAll('[id^="result"]').forEach(r => r.innerText = '');
           });
         });
       });
